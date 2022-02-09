@@ -1,0 +1,38 @@
+.menu{
+  background-color: #888888;
+  color: #fff;
+  height: 32px;
+}
+.menu button {
+  border: none;
+  background-color: #888888;
+  color: #000;
+  font-family: FixedsysExcelsior301Regular;
+  font-size: 20px;
+  width: auto;
+  height: 30px;
+  padding: 3px 15px 3px 15px;
+  outline: none;
+}
+.menu button::first-letter {
+ text-decoration: underline;
+}
+.menu button:hover{
+  background-color: #0000a0;
+  color: #888888;
+}
+.menu button:focus{
+  background-color: #888888;
+  color: white;
+}
+.menu button:disabled{
+  background-color: #888888;
+  color: #666;
+}
+.menu_title{
+  float: right;
+  color: #FFFF52;
+  font-size: 20px;
+  font-weight: lighter;
+  padding: 3px 15px 3px 15px;
+}

@@ -1,0 +1,14 @@
+.highscore{
+  text-align: center;
+  height: 360px;
+  width: 33%;
+}
+.highscore-table{
+  table-layout: fixed;
+  text-align: left;
+  border-collapse:collapse;
+}
+.highscore-table td{
+  width: 50%;
+  text-align: left;
+}

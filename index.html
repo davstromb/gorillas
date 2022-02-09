@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Omega Gorillas</title>
+
+  <link href="node_modules/codemirror/lib/codemirror.css" type="text/css" rel="stylesheet"></link>
+  <link href="node_modules/codemirror/theme/3024-night.css" type="text/css" rel="stylesheet"></link>
+  <link href="styles/base.css" type="text/css" rel="stylesheet"></link>
+  <link href="node_modules/codemirror/addon/lint/lint.css" type="text/css" rel="stylesheet"></link>
+
+
+  <script data-main="js/app.js" src="js/require.js"></script>
+  <script src="js/helpers/appInit.js"></script>
+  <script src="js/helpers/modal.js"></script>
+  <script src="js/helpers/highscore.js"></script>
+  <script src="js/helpers/codeMirrorConfig.js"></script>
+  <script src="js/helpers/playerCode.js"></script>
+  <script src="js/helpers/shortKeys.js"></script>
+  <script src="js/helpers/validatePlayerCode.js"></script>
+  <script src="js/gameplay.js"></script>
+  <script src="js/agent.js"></script>
+
+</head>
+<body>
+  <div class=menu><!-- Start menu -->
+    <button onclick="openModal('new_player')" id="new_player_btn">New Player</button>
+    <button onclick="openModal('load_player_modal')">Load Player</button>
+    <button onclick="openModal('api_info')">Api</button>
+    <button onclick="openModalWith(RulesModalText)">Rules</button>
+    <span class="menu_title">by Omegapoint AB</span>
+  </div><!-- End menu -->
+
+  <table class="top-container">
+    <tr>
+      <td class="scoreboard">
+        <h3>*** Scoreboard ***</h3>
+        <table class="center">
+          <tr class="player_row">
+            <th>Player 1</th>
+            <th></th>
+            <th>Player 2</th>
+          </tr>
+          <tr class="name_row">
+            <td><span id="player_1_name">-</span></td>
+            <td> vs.</td>
+            <td>CPU</td>
+          </tr>
+          <tr class="score_row"><!-- <tr class="players"> -->
+            <td><span id="player_1_score">0</span></td>
+            <td> :</td>
+            <td><span id="player_2_score">0</span></td>
+          </tr>
+        </table>
+      </td>
+
+      <td id="container"> <!-- Start game container -->
+        <div class="game_info">
+            Round : <span id="round_nr">-</span><br>
+            Throws: <span id="throw_nr">-</span>
+        </div>
+        <canvas id="canvas" width="640" height="350">
+          <p>Browser does not support the canvas tag</p>
+        </canvas>
+        <p>Wind: <span id="current_wind">-</span></p>
+      </td> <!-- end game container -->
+
+      <td class="highscore"> <!-- Start highscore -->
+        <!-- <img src="img/twogorillas.gif" > -->
+        <h3>*** Highscore ***</h3>
+        <table id="highscore-table"  class="highscore-table center"></table>
+      </td> <!-- end highscore -->
+    </tr>
+    <tr class="ai_row">
+      <div class="ai_input" id="textbox">   <!-- Start input code -->
+        <div class="menu">
+            <button id="play">Play</button>
+            <button id="stop" onclick="stopGame()">Stop</button>
+            <button onclick="savePlayerCode()">Save</button>
+            <button onclick="resetPlayerCode()">Get latest save</button>
+            <button onclick="clearPlayerCode()">Clear Code</button>
+            <span class="menu_title" id="message_to_player"></span>
+        </div>
+        <textarea class="ai_input_code" id="textarea_player_code" rows="50" cols="50">
+        </textarea>
+      </div>  <!-- end input code -->
+    </tr>
+  </table>
+
+<!-- === START MODALS === -->
+
+  <div id="message_modal" class="modal"> <!-- start message modal -->
+    <div class="modal-content">
+      <div class="modal-box">
+        <br>
+        <span id="message_modal_content"></span>
+        <hr>
+        <button class="modal-btn-ok" onclick="closeModal('message_modal')">
+          < <ok><u>O</u>k</ok> >
+        </button>
+        <br/>
+      </div>
+    </div>
+  </div> <!-- end message modal -->
+
+  <div id="new_player" class="modal"> <!-- start New Player modal -->
+    <div class="modal-content">
+      <div class="modal-box">
+        <br/>
+        New Player<br>
+        <br>
+        <form onsubmit="createPlayerAndCloseModal()">
+          <table>
+            <tr>
+              <td><label for="player_name">Enter handle: </label></td>
+              <td>
+                <input class="modal-input" type="text" id="player_name" required
+                  pattern="[A-Za-z0-9-_]{4,20}" placeholder="Enter your handle">
+              </td>
+              <td>
+                (Length: 4-20, Only letters, numbers, - and _ )
+              </td>
+            </tr>
+            <tr>
+              <td><label for="player_email"> Enter email: </label></td>
+              <td>
+                <input class="modal-input" type="email" id="player_email" required
+                  placeholder="Enter a valid email">
+              </td>
+              <td>
+                (To contact you when you're winning ;) )
+              </td>
+            </tr>
+          </table>
+          <hr>
+          <button type="submit" class="modal-btn-ok" onclick="closeModal('new_player')" formnovalidate>
+            < <ok>Cancel</ok> >
+          </button>
+          <button type="submit" class="modal-btn-ok">
+            < <ok>Create new player</ok> >
+          </button>
+        </form>
+      </div>
+    </div>
+  </div> <!-- end New Player modal -->
+
+  <div id="load_player_modal" class="modal"> <!-- start load Player modal -->
+    <div class="modal-content">
+      <div class="modal-box">
+        <br/>
+        Load Player<br>
+        <br>
+        <label for="search_email"> Enter email: </label>
+        <input class="modal-input" type="email" id="search_email"><br>
+        <br>
+        <span id="load_player_msg">  </span>
+        <hr>
+        <button class="modal-btn-ok" onclick="closeModal('load_player_modal')">
+          < <ok>Cancel</ok> >
+        </button>
+        <button class="modal-btn-ok" onclick="loadPlayerByEmail()">
+          < <ok>Search for player</ok> >
+        </button>
+      </div>
+    </div>
+  </div> <!-- end load Player modal -->
+
+  <div id="api_info" class="modal"> <!-- start API modal -->
+    <div class="modal-content">
+      <div class="modal-box">
+        Parameters<br/><br />
+
+        <table border=1>
+          <tr><td align="right">Variable</td><td align="left">Type</td> <td>Description</td></tr>
+           <tr><td align="right">lastBananaHit</td><td align="left">{'x': float,'y': float}</td> <td>If no previous hit: both floats are null. Otherwise the variable contains the distance from you to the hit position, 'x' = x-axis, 'y' = y-axis.</td></tr>
+            <tr><td align="right">opponent</td><td align="left">{'x': float,'y': float}</td> <td>The distance to your opponent, 'x' = x-axis, 'y' = y-axis.</td></tr>
+             <tr><td align="right">wind</td><td align="left">float</td> <td>The wind can be between -15 and 15, depending on the direction.</td></tr>
+              <tr><td align="right">memory</td><td></td> <td>A variable free to use, each time the function is called the memory from last called is set as input parameter.</td></tr>
+
+        </table>
+        <br><br>
+         Return values<br/><br />
+         The function must return the Json-structure:<br>
+         {"velocity": float,
+          "angle": float,
+          "memory": var}<br><br>
+        <table border=1>
+          <tr><td align="right">Variable</td><td align="left">Type</td> <td>Description</td></tr>
+           <tr><td align="right">velocity</td><td align="left">float</td> <td>The desired force of your throw, the gorillas can't use force stronger than 150. In that case they will die.</td></tr>
+            <tr><td align="right">angle</td><td align="left">float</td> <td>The angle of the throw, a gorilla can throw between 0-360 (degrees) otherwise thier arms will twist and they will die.</td></tr>
+              <tr><td align="right">memory</td><td></td> <td>A variable free to use, each time the function is called the memory from last called is set as input parameter.</td></tr>
+
+        </table>
+        <hr>
+        <button class="modal-btn-ok" onclick="closeModal('api_info')">
+          < <ok>Ok</ok> >
+        </button>
+        <br/>
+      </div>
+    </div>
+  </div> <!-- end API modal -->
+<!-- === END MODALS === -->
+</body>
+</html>

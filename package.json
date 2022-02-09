@@ -1,0 +1,10 @@
+{
+  "name": "JFokus",
+  "scripts": {
+    "start": "http-server ./ -p 8000 -o -c -1 -s"
+  },
+  "dependencies": {
+    "http-server": "0.8.5",
+    "codemirror": "5.10.0"
+  }
+}

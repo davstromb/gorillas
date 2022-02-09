@@ -1,0 +1,56 @@
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 4; /* Sit on top of everything*/
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+}
+ok{
+  color: black;
+}
+
+
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #888888;
+    color: black;
+    margin: 5% auto; /* 5% from the top and centered */
+    padding: 20px;
+    width: 60%;
+    font-size: 23px;
+    box-shadow: 10px 10px 0 black;
+}
+.modal-box{
+  border: 2px solid black;
+  text-align: center;
+}
+.modal-input{
+  background-color: #888888;
+  color: #0000a0;
+  font-family: FixedsysExcelsior301Regular;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  border-bottom: solid 2px black;
+}
+.modal-btn-ok{
+  font-family: FixedsysExcelsior301Regular;
+  border: none;
+  background-color: #888888;
+  color: #000;
+  font-size: 20px;
+  width: auto;
+  height: 30px;
+  padding: 3px 15px 3px 15px;
+}
+.modal-btn-ok:hover,
+.modal-btn-ok:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}

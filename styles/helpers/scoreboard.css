@@ -1,0 +1,26 @@
+.scoreboard {
+  text-align: center;
+  height: 360px;
+  width: 33%;
+  font-size: 26px;
+}
+.player_row{
+  text-decoration: underline;
+}
+.name_row{
+  color: white;
+}
+.score_row{
+  font-size: 72px;
+  color: #FFFF52;
+}
+img .score_img{
+  height: 26;
+  width: 30;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
